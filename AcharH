@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+
+typedef struct Tno{
+
+	int num;
+	struct Tno *dir;
+	struct Tno *esq;
+}Tno;
+
+
+
+Tno *Inserir(int k){
+
+    Tno *novo = malloc(sizeof(Tno));
+
+    novo->num = k;
+    novo->dir = NULL;
+    novo->esq = NULL;
+
+
+}
+
+
+Tno *insereTNo(Tno **p, int k){
+
+    if (k < 0) return NULL;
+
+    if(*p == NULL){
+
+        *p = Inserir(k);
+        return *p;
+    }
+
+    if((*p)->num < k)   return insereTNo( &((*p)->esq), k);
+
+    return insereTNo( &((*p)->dir), k);
+
+
+}
+
+
+int ImprimeAltura(Tno *p, int k, int a){
+	
+	if(k < 0) return -1;
+	
+    if(p == NULL) return -1;
+    
+    if(p->num == k) return a; 
+
+	
+	
+    if(p->num < k) return ImprimeAltura(p->esq, k, a++);
+    
+	
+	
+	return ImprimeAltura(p->dir, k, a);
+
+
+}
+
+
+
+void main(int argc, char *argv[]){
+
+    Tno *raiz = NULL;
+    raiz = insereTNo(&raiz, 7);
+
+    int n[9], i = 0;
+
+    while( i < (sizeof(n)/sizeof(int))){
+
+        insereTNo(&raiz, n[i]);
+        i++;
+
+    }
+	
+	printf("%d", ImprimeAltura(raiz, 7, 0));
+
+
+}
