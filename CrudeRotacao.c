@@ -61,16 +61,14 @@ int Inserir(Tno **p, int k){
 	}
 	
 	if((*p)->chave > k){
-		if((*p)->esq != NULL)		(*p)->bal -= Inserir(&((*p)->esq), k);
-	
+		if((*p)->esq != NULL)	if( Inserir(&((*p)->esq), k) == 0) return 0;
+		
+		else	(*p)->esq = Criar(k);
 		
 		
-		else{
 		
-			(*p)->esq = Criar(k);
-			(*p)->bal -= 1;
-		}
 		
+		(*p)->bal -= 1;
 		if((*p)->bal < -1) {
 			
 			*p = RotacaoDir(p);
@@ -80,14 +78,13 @@ int Inserir(Tno **p, int k){
 		return -(abs((*p)->bal));
 	}
 	
-	if((*p)->dir != NULL)	(*p)->bal += Inserir(&((*p)->dir), k);
+	if((*p)->dir != NULL)	if ( 0 == Inserir(&((*p)->dir), k)) return 0;
 	
-	else{
 	
-		(*p)->dir = Criar(k);
-		(*p)->bal += 1;
-	}
+	else	(*p)->dir = Criar(k);
 	
+	
+	(*p)->bal += 1;
 	if((*p)->bal > 1) {
 			
 		*p = RotacaoEsq(p);
